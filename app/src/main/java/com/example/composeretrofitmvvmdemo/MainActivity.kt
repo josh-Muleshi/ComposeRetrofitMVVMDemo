@@ -28,7 +28,10 @@ import coil.size.Scale
 import coil.transform.CircleCropTransformation
 import com.example.composeretrofitmvvmdemo.dao.Movie
 import com.example.composeretrofitmvvmdemo.ui.theme.ComposeRetrofitMVVMDemoTheme
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val mainVM: MainVM by viewModels()
 
@@ -38,13 +41,6 @@ class MainActivity : ComponentActivity() {
             ComposeRetrofitMVVMDemoTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-
-                    /*mainVM.getPopularMovies().observe(this, {
-                        if (it != null) {
-                            Log.i("MOVIES", it.toString())
-                            MovieList(movieList = it)
-                        }
-                    })*/
 
                     MovieList(movieList = mainVM.movieListResponse)
                     mainVM.getMovieList()

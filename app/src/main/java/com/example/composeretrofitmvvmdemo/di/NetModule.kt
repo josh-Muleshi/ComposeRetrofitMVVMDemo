@@ -1,15 +1,26 @@
-package com.example.composeretrofitmvvmdemo.retrofit
+package com.example.composeretrofitmvvmdemo.di
 
 import com.example.composeretrofitmvvmdemo.BuildConfig
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.composeretrofitmvvmdemo.MainRepo
+import com.example.composeretrofitmvvmdemo.retrofit.RemoteAPI
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-object RemoteService {
-    private const val baseURL = BuildConfig.BASE_URL
+private const val baseURL = BuildConfig.BASE_URL
 
-    private fun getRemoteInstance(): Retrofit =
+@Module
+@InstallIn(SingletonComponent::class)
+class NetModule {
+
+    @Provides
+    fun provideRetrofitService(): RemoteAPI =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(baseURL)
@@ -29,5 +40,6 @@ object RemoteService {
                     }.build()
             )
             .build()
+            .create(RemoteAPI::class.java)
 
 }
