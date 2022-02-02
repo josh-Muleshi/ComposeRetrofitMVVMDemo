@@ -11,14 +11,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,7 +27,6 @@ import coil.transform.CircleCropTransformation
 import com.example.composeretrofitmvvmdemo.dao.Movie
 import com.example.composeretrofitmvvmdemo.ui.theme.ComposeRetrofitMVVMDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -86,15 +83,18 @@ fun MovieItem(movie: Movie, onClick: (Movie) -> Unit) {
 
     Card(
         modifier = Modifier
+            .semantics { contentDescription = "Item_card" }
             .padding(4.dp)
             .fillMaxWidth()
-            .clickable { onClick(movie) }
+            //.clickable { onClick(movie) }
+            //.clickable(true, "Row Click", null,{ onClick(movie) } )
             .height(110.dp),
         shape = RoundedCornerShape(8.dp)
     ) {
 
         Row(
             Modifier
+                .semantics { contentDescription = "Item_row" }
                 .padding(4.dp)
                 .fillMaxSize()
         ) {
@@ -111,6 +111,7 @@ fun MovieItem(movie: Movie, onClick: (Movie) -> Unit) {
                 ),
                 contentDescription = movie.overview,
                 modifier = Modifier
+                    .semantics { contentDescription = "Item_img" }
                     .fillMaxHeight()
                     .weight(0.2f)
             )
@@ -137,6 +138,10 @@ fun MovieItem(movie: Movie, onClick: (Movie) -> Unit) {
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
+                Button(onClick = {},
+                modifier = Modifier.semantics { contentDescription = "Item_btn" }) {
+                    Text("Demo")
+                }
 
             }
         }
